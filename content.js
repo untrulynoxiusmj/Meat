@@ -1,4 +1,8 @@
 keys = ["slide", "present", "presentation", "attendance", "chetan"];
+let lastNotif = "";
+var date = new Date();
+var milliseconds = 0;
+var flag = 1;
 
 var mutationObserver = new MutationObserver(function(mutations) {
   mutations.forEach(mutation => {
@@ -7,19 +11,28 @@ var mutationObserver = new MutationObserver(function(mutations) {
         if (addedNode.nodeName=="SPAN"){
           let currentText = addedNode.innerText.toLowerCase();
           console.log("added: ", currentText);
-
           keys.forEach(key => {
             if (currentText.includes(key)) {
-              console.log("found");
-              chrome.runtime.sendMessage('', {
-                type: 'notification',
-                options: {
-                  title: key,
-                  message: currentText,
-                  iconUrl: '/icon.png',
-                  type: 'basic'
+              if (date.getTime()-milliseconds<2000){
+                if (lastNotif==key){
+                  flag = 0;
                 }
-              });
+              }
+              if (flag){
+                console.log("found");
+                chrome.runtime.sendMessage('', {
+                  type: 'notification',
+                  options: {
+                    title: key,
+                    message: currentText,
+                    iconUrl: '/icon.png',
+                    type: 'basic'
+                  }
+                });
+              }
+              lastNotif = key;
+              milliseconds = date.getTime();
+              flag = 1;
             }
           });
         }
