@@ -1,4 +1,4 @@
-keys = ["slide", "market", "present", "presentation", "product", "but", "attendance", "name"];
+keys = ["slide", "present", "presentation", "attendance", "chetan"];
 
 var mutationObserver = new MutationObserver(function(mutations) {
   mutations.forEach(mutation => {
@@ -42,9 +42,6 @@ function addObserverIfDesiredNodeAvailable() {
   }
   var config = {childList: true};
   console.log("added")
-  document.querySelectorAll(".cS7aqe").forEach(element => {
-    console.log(element);
-  });
   mutationObserver.observe(document.querySelector(".a4cQT"), {
     attributes: true,
     characterData: true,
