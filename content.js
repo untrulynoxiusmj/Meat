@@ -1,10 +1,27 @@
+keys = ["slide", "market", "present", "presentation", "product", "but", "attendance", "name"];
+
 var mutationObserver = new MutationObserver(function(mutations) {
-  // console.log(mutations);
   mutations.forEach(mutation => {
     if (mutation.target.nodeName=="SPAN"){
       mutation.addedNodes.forEach(addedNode => {
         if (addedNode.nodeName=="SPAN"){
-          console.log("added: ", addedNode.innerText);
+          let currentText = addedNode.innerText.toLowerCase();
+          console.log("added: ", currentText);
+
+          keys.forEach(key => {
+            if (currentText.includes(key)) {
+              console.log("found");
+              chrome.runtime.sendMessage('', {
+                type: 'notification',
+                options: {
+                  title: key,
+                  message: currentText,
+                  iconUrl: '/icon.png',
+                  type: 'basic'
+                }
+              });
+            }
+          });
         }
       })
       mutation.removedNodes.forEach(removedNode => {
@@ -16,8 +33,6 @@ var mutationObserver = new MutationObserver(function(mutations) {
   })
 });
 
-
-
 function addObserverIfDesiredNodeAvailable() {
   console.log("checking to add")
   var composeBox = document.querySelector(".a4cQT");
@@ -27,6 +42,9 @@ function addObserverIfDesiredNodeAvailable() {
   }
   var config = {childList: true};
   console.log("added")
+  document.querySelectorAll(".cS7aqe").forEach(element => {
+    console.log(element);
+  });
   mutationObserver.observe(document.querySelector(".a4cQT"), {
     attributes: true,
     characterData: true,
@@ -34,46 +52,9 @@ function addObserverIfDesiredNodeAvailable() {
     subtree: true,
     attributeOldValue: true,
     characterDataOldValue: true
-  });  
-
+  });   
 }
+
 addObserverIfDesiredNodeAvailable();
 
 
-
-
-
-
-
-
-
-
-
-
-
-// alert("Hello from your Chrome extension!");
-
-// var firstHref = $("a[href^='http']").eq(0).attr("href");
-
-// console.log(firstHref);
-
-// chrome.runtime.onMessage.addListener(
-//     function(request, sender, sendResponse) {
-//       if( request.message === "clicked_browser_action" ) {
-//         // var firstHref = $("a[href^='http']").eq(0).attr("href");
-//           var subs = document.getElementsByClassName("CNusmb");
-
-//         setInterval(function(){
-//           for(var i=0;i<subs.length;i++)
-//           {
-//             console.log(subs[i].innerHTML);
-//           }
-//           console.log("One loop over!");
-//         }, 10000);
-//       //  console.log((document.querySelector("html").innerHTML));
-//         //document.querySelector("html").innerHTML = "hehe";
-//         // console.log(firstHref);
-//         alert("heythere");
-//       }
-//     }
-//   );
