@@ -1,5 +1,14 @@
 # MeetScrape
-A Google Meet Chrome extension to ease the teaching/learning experience.
+
+Usage:
+
+git clone https://github.com/untrulynoxiusmj/MeetScrape.git
+Go to chrome://extensions/
+-> Load unpacked
+-> Choose the folder containing repo files
+Turn on the extension
+:-)
+
 
 Created By:
 - Aaryan Bhardwaj (https://github.com/uglyprincess)
